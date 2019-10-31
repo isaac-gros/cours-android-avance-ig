@@ -3,6 +3,7 @@ package com.example.insanelywrongmechanics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.list_item.view.*
 
@@ -19,6 +20,7 @@ class MainAdapter(var arrayGames: ArrayList<Game>): RecyclerView.Adapter<MainVie
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val game = arrayGames.get(position)
         holder.view.itemTitle.text = game.name
+        Picasso.get().load(game.img).into(holder.view.itemImage)
     }
 
     //Notify recycler view when view change
