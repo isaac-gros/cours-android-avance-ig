@@ -1,11 +1,15 @@
 package com.example.insanelywrongmechanics
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONObject
+
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,40 +17,55 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Initialisation de la liste
+        main_listItems.layoutManager = LinearLayoutManager(this)
+        main_listItems.adapter = MainAdapter(fetchGames())
     }
 
-    fun toastMe(view: View) {
-        // val myToast = Toast.makeText(this, message, duration);
-        val myToast = Toast.makeText(this, "Hello Toast!", Toast.LENGTH_SHORT)
-        myToast.show()
-    }
+    fun fetchGames(): ArrayList<Game> {
 
-    fun increment(view: View) {
-        val textView = findViewById<TextView>(R.id.currentNumber)
-        val countString = textView.text.toString()
-        var count: Int = Integer.parseInt(countString)
-        count++
+        // Tableau vide des jeux
+        var listOfGames: ArrayList<Game> = ArrayList()
 
-        textView.text = count.toString()
-    }
+        // Instantiate the RequestQueue.
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://my-json-server.typicode.com/bgdom/cours-android/games"
 
-    fun genRandom(view: View) {
-        // Create an Intent to start the second activity
-        val randomIntent = Intent(this, SecondActivity::class.java)
+        // Request a string response from the provided URL.
+        val request = JsonArrayRequest(Request.Method.GET, url, null,
+            Response.Listener { response ->
 
-        // Get the ID of the current number
-        val textView = findViewById<TextView>(R.id.currentNumber)
+                for(i in 0 until response.length()) {
+                    val singleItem = response.get(i).toString()
+                    val singleObject = JSONObject(singleItem)
 
-        // Convert text content of textView in a string...
-        val countString = textView.text.toString()
+                    val gameObject = Game(
+                        singleObject.getInt("id"),
+                        singleObject.getString("name"),
+                        singleObject.getString("description"),
+                        singleObject.getString("link"),
+                        singleObject.getString("img")
+                    )
 
-        // ...then as a number
-        val count: Int = Integer.parseInt(countString)
+                    listOfGames.add(gameObject)
+                    main_listItems.adapter?.notifyDataSetChanged()
+                }
 
-        // Add the count to the extras for the Intent.
-        randomIntent.putExtra(SecondActivity.TOTAL_COUNT, count)
+            },
+            Response.ErrorListener { error ->
+                listOfGames.add(Game(
+                    0,
+                    "Aucun jeu trouvé",
+                    "",
+                    "",
+                    ""
+                ))
+                println("Erreur lors de la récupération des jeux. Vérifier la requête")
+            }
+        )
+        queue.add(request)
 
-        // Start the new activity.
-        startActivity(randomIntent)
+        return listOfGames
     }
 }

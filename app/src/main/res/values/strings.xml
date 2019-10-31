@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">InsanelyWrongMechanics</string>
     <string name="randomNumberString">Voici un nombre alétoire généré entre 0 et %1d.</string>
+    <string name="imgdesc">imgDesc</string>
+    <string name="readmore">Voir plus</string>
 </resources>
