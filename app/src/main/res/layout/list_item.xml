@@ -7,45 +7,42 @@
 
     <ImageView
         android:id="@+id/itemImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:contentDescription="@string/imgdesc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:srcCompat="@tools:sample/avatars"
+        android:padding="20dp"/>
 
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        tools:text="Un titre"
         android:textAlignment="center"
-        android:textSize="18pt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemImage" />
+        app:layout_constraintVertical_bias="0.2"
+        android:textSize="21sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/separator"
+        app:layout_constraintLeft_toRightOf="@id/itemImage"
+        tools:text="Un titre de jeu" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:background="@color/colorAccent"
         android:text="@string/readmore"
         android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemTitle" />
+        app:layout_constraintBottom_toBottomOf="@id/separator"
+        app:layout_constraintLeft_toRightOf="@id/itemImage"
+        app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
 
     <View
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button" />
+        app:layout_constraintTop_toBottomOf="@id/itemImage"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
