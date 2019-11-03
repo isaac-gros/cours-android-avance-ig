@@ -37,14 +37,15 @@ class GamesListFragment : Fragment() {
         // Tableau vide des jeux
         var listOfGames: ArrayList<Game> = ArrayList()
 
-        // Instantiate the RequestQueue.
+        // Requête
         val queue = Volley.newRequestQueue(activity)
         val url = "https://my-json-server.typicode.com/bgdom/cours-android/games"
-
-        // Request a string response from the provided URL.
         val request = JsonArrayRequest(
             Request.Method.GET, url, null,
             Response.Listener { response ->
+
+                //Pour chaque élément de tableau JSON, on instancie
+                // une nouvelle classe Game puis on l'ajoute au tableau listOfGames
 
                 for(i in 0 until response.length()) {
                     val singleItem = response.get(i).toString()
@@ -84,6 +85,7 @@ class GamesListFragment : Fragment() {
         return listOfGames
     }
 
+    // Message toast pour résulter du statut
     private fun showStatus(Message: String): Unit {
         val duration = Toast.LENGTH_SHORT
         val toast = Toast.makeText(activity, Message, duration)

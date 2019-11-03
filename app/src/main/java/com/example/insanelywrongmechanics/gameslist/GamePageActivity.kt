@@ -32,6 +32,7 @@ class GamePageActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_page)
 
+        //Récupération des datas passées en extra
         val gameTitleStr = intent.getStringExtra(MainViewHolder.GAME_NAME)
         val gameImageStr = intent.getStringExtra(MainViewHolder.GAME_IMAGE)
         val gameDescriptionStr = intent.getStringExtra(MainViewHolder.GAME_DESCRIPTION)
@@ -46,37 +47,57 @@ class GamePageActivity: AppCompatActivity() {
         gameTitle.text = gameTitleStr
         gameDescription.text = gameDescriptionStr
 
+        //Mise à jour du texte du bouton pour ouvrir le lien
+        updateButtonText()
+
+        //Détection de la prochaine activité au clic sur le navigateur
         gameOpenLink.setOnClickListener {
-
             if (useWebView()) {
-                val nextIntent = Intent(this, WebviewActivity::class.java)
 
-                //Envoi du lien en extra pour la prochaine activité
-                nextIntent.putExtra(LINK, gameLinkStr)
-
-                //Mise à jour de l'utilisation de la webview avant le commencement de l'activité
+                //Pour passer à l'état inverse
                 updateWebViewUsage()
 
+                //On passe le lien en paramètre pour l'ouvrir dans la webview
+                val nextIntent = Intent(this, WebviewActivity::class.java)
+                nextIntent.putExtra(LINK, gameLinkStr)
                 this.startActivity(nextIntent)
 
             } else {
-                //Mise à jour de l'utilisation de la webview
                 updateWebViewUsage()
-
-                //Ouverture du lien
                 val loadGame = Intent(android.content.Intent.ACTION_VIEW, Uri.parse(gameLinkStr))
                 startActivity(loadGame)
             }
         }
 
+        //Bouton de partage
+        gameShare.setOnClickListener {
+            shareGame(gameTitleStr, gameLinkStr)
+        }
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateButtonText()
+
+    }
+
+    //Texte du bouton
+    private fun updateButtonText() {
+        if(useWebView()) {
+            gameOpenLink.text = getString(R.string.openInApp)
+        } else {
+            gameOpenLink.text = getString(R.string.openInBrowser)
+        }
+    }
+
+    //Test si on utilise la webview ou le navigateur natif
     private fun useWebView(): Boolean {
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         useWebView = sharedPreferences.getBoolean(WEBVIEW_PREFERENCE, false)
         return useWebView
     }
 
+    //Mise à jour de l'utilisation de la webview
     private fun updateWebViewUsage() {
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -84,5 +105,22 @@ class GamePageActivity: AppCompatActivity() {
         editor.apply()
     }
 
+    //Fonction de partage du jeu
+    private fun shareGame(name: String?, link: String?) {
+
+        //Contenus texte
+        val title = "Connaîs-tu le jeu $name ?"
+        val content = "Je trouve ce jeu super intéressant ! $link"
+
+        //Création de l'intent et lancement
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.type = "text/plain"
+
+        shareIntent.putExtra(Intent.EXTRA_TITLE, title.toString())
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content.toString())
+
+        startActivity(Intent.createChooser(shareIntent, "Partager le jeu"))
+    }
 
 }

@@ -2,13 +2,12 @@ package com.example.insanelywrongmechanics.gameslist
 
 import android.content.Intent
 import android.view.View
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.example.insanelywrongmechanics.R
 import kotlinx.android.synthetic.main.list_item.view.*
 
 class MainViewHolder(val view: View, var game: Game? = null): RecyclerView.ViewHolder(view) {
 
+    // Les éléments qui constituent un élément de liste
     companion object {
         var GAME_NAME: String = "Titre du jeu"
         var GAME_IMAGE: String = "Lien de l'image"

@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.list_item.view.*
 
 class MainAdapter(var arrayGames: ArrayList<Game>): RecyclerView.Adapter<MainViewHolder>() {
 
+    // Le nombre d'éléments dans la liste
     override fun getItemCount(): Int = arrayGames.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -19,9 +20,12 @@ class MainAdapter(var arrayGames: ArrayList<Game>): RecyclerView.Adapter<MainVie
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+
+        // Une instance de jeu dans la liste
         val game = arrayGames.get(position)
         holder.game = game
 
+        // La vue du jeu dans la liste
         holder.view.itemTitle.text = game.name
         holder.view.itemImage.contentDescription = game.description
         Picasso.get().load(game.img).into(holder.view.itemImage)
