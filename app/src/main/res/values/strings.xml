@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">InsanelyWrongMechanics</string>
+    <string name="randomNumberString">Voici un nombre alétoire généré entre 0 et %1d.</string>
+    <string name="imgdesc">imgDesc</string>
+    <string name="readmore">Voir plus</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gameTitleString">Titre du jeu</string>
+    <string name="gameDescriptionString">Description du jeu</string>
+    <string name="openInApp">Ouvrir dans l\'app</string>
+    <string name="openInBrowser">Ouvrir dans le navigateur</string>
 </resources>
