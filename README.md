@@ -1,2 +1,2 @@
-# Cours Android Avancé - Isaac Gros
-Code Name : IWM. A tiny Kotlin app fetching historics games.
+# IWM (Insanely Wrong Mechanics)
+Une petite application Kotlin qui récupère des jeux historiques.
